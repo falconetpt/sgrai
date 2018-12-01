@@ -388,7 +388,7 @@ function displayGui() {
     var texturas = [text1, text2, text3];
 
     //var textura = gui.add(texturaInit, 'Textura').options(texturas);
-    var arm = gui.addFolder('Closet Skeletton');
+    var arm = gui.addFolder('closet');
     var textura = arm.add(texturaInit, 'Textura').options(texturas);
     var dax = arm.add(parameters, 'c').min(.5).max(2).step(.1).name('width');
     var day = arm.add(parameters, 'd').min(.5).max(2).step(.10).name('height');
