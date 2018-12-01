@@ -16,9 +16,9 @@ var xArmarioEscolhido = 0;
 var yArmarioEscolhido = 0;
 var zArmarioEscolhido = 0;
 // dim slide bar
-var armx = 0;
-var army = 0;
-var armz = 0;
+var armx = 1;
+var army = 1;
+var armz = 1;
 //dim slide bar
 //PRATELEIRA
 var wPrat;
@@ -313,7 +313,7 @@ function displayGui() {
         color: 0xffffff,
         specular: 0xffffff,
         shininess: 30,
-        map: new THREE.TextureLoader().load('../texturas/walls.jpg')
+        map: new THREE.TextureLoader().load('../texturas/wood.jpg')
     });
     chao = new THREE.Mesh(geometryC, materialC);
     pf = new THREE.Mesh(paredeF, materialparede);
@@ -331,6 +331,7 @@ function displayGui() {
     pe.position.set(-7.5, 1.5, 0);
 
     chao.position.set(0, -0.2, 0);
+    //scene.remove(chao);
 
 
     var texturaInit = { Textura: text1 };
@@ -340,7 +341,7 @@ function displayGui() {
     var arm = gui.addFolder('armario base');
     var textura = arm.add(texturaInit, 'Textura').options(texturas);
     var dax = arm.add(parameters, 'c').min(.5).max(2).step(.1).name('width');
-    var day = arm.add(parameters, 'd').min(.5).max(2).step(.10).name('height');
+    var day = arm.add(parameters, 'd').min(.5).max(4).step(.10).name('height');
     var daz = arm.add(parameters, 'e').min(.5).max(2).step(.10).name('depth');
 
     arm.add(criar_armario, 'criar_armario').name('criar armario');
