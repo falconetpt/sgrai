@@ -307,7 +307,7 @@ function displayGui() {
         color: 0xffffff,
         specular: 0xffffff,
         shininess: 30,
-        map: new THREE.TextureLoader().load('../texturas/wood.jpg')
+        map: new THREE.TextureLoader().load('../texturas/relva.jpg')
     });
     let materialparede = new THREE.MeshPhongMaterial({
         color: 0xffffff,
@@ -316,7 +316,6 @@ function displayGui() {
         map: new THREE.TextureLoader().load('../texturas/walls.jpg')
     });
     chao = new THREE.Mesh(geometryC, materialC);
-    teto = new THREE.Mesh(geometryC, materialC);
     pf = new THREE.Mesh(paredeF, materialparede);
     pt = new THREE.Mesh(paredeF, materialparede);
     pe = new THREE.Mesh(paredeL, materialparede);
@@ -326,15 +325,12 @@ function displayGui() {
     scene.add(pe);
     scene.add(pd);
     scene.add(chao);
-    scene.add(teto);
     pf.position.set(0, 1.5, -7.5);
     pt.position.set(0, 1.5, 7.5);
     pd.position.set(7.5, 1.5, 0);
     pe.position.set(-7.5, 1.5, 0);
 
     chao.position.set(0, -0.2, 0);
-    teto.position.set(0, 4, 0);
-    //scene.remove(chao);
 
 
     var texturaInit = { Textura: text1 };
