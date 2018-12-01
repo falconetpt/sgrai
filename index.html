@@ -7,7 +7,7 @@
     </style>
 </head>
 <body>
-<audio id= "musica" src = "MusicaSgrai.mp3"></audio>
+<audio id= "stefanie" src = "sound.mp3"></audio>
 <script src="js/three.js"></script>
 <script src="OrbitControls.js"></script>
 <script src="modelo.js"></script>
@@ -74,8 +74,8 @@
     var listener = new THREE.AudioListener();
     camera.add(listener);
     var sound1 = new THREE.Audio( listener );
-    sound1.load( 'MusicaSgrai.mp3' );
-    sound1.setVolume(0.4);
+    sound1.load( 'sound.mp3' );
+    sound1.setVolume(0.2);
     sound1.loop = true;
     sound1.autoplay = true;
     mesh1.add( sound1 );;
