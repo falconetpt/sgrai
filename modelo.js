@@ -2,6 +2,12 @@ const CLOSET = 0;
 const GAVETA = 1;
 const PRATELEIRA = 2;
 const CABIDE = 3;
+var portaEsquerda;
+var portaDireita;
+var portaDireitaPai;
+var portaEsquerdaPai;
+var macanetaPortaDireita;
+var macanetaPortaEsquerda;
 
 //MATERIAIS BASE
 var LightWodd = new THREE.MeshPhongMaterial({
@@ -125,26 +131,41 @@ var createDrawer = function (dx, dy, dz, x, y, z, m, scene) {
 
 var closedDoor = function (armx, army, armz, m, scene) {
   let mat = LightWodd;
+
+
   if (m == 1) { mat = LightWodd; }
   if (m == 2) { mat = metal; }
   if (m == 3) { mat = glass; }
 
-  let porta = new THREE.BoxGeometry(armx / 2 - .01, army, .02, mat);
-  let esquerda = new THREE.Mesh(porta, mat);
-  let direita = new THREE.Mesh(porta, mat);
-  esquerda.position.set(-armx / 4 - .01, 0, armz / 2);
-  direita.position.set(armx / 4 + .01, 0, armz / 2);
-  scene.add(esquerda);
-  scene.add(direita);
+    var paiAuxDir = new THREE.Object3D();
+    var paiAuxEsq = new THREE.Object3D();
+    paiAuxDir.position.set(armx /2 + .01, 0, armz / 2);
+    paiAuxEsq.position.set(-armx /2  + .01, 0, armz / 2);
 
-  let mGeo = new THREE.BoxGeometry(.025, .1, .05);
+    let porta = new THREE.BoxGeometry(armx / 2 - .01, army, .02, mat);
+    let esquerda = new THREE.Mesh(porta, mat);
+    let direita = new THREE.Mesh(porta, mat);
+    esquerda.position.set(armx / 4 - .01, 0,0);
+    direita.position.set(-armx / 4 + .01, 0, 0);
+    paiAuxEsq.add(esquerda);
+    paiAuxDir.add(direita);
+    portaDireita = direita;
+    portaEsquerda = esquerda;
 
-  let macanetaEsq = new THREE.Mesh(mGeo, glass);
-  macanetaEsq.position.set(-armx / 8, 0, (armz / 2 + .04));
-  let macanetaDir = new THREE.Mesh(mGeo, glass);
-  macanetaDir.position.set(+armx / 8, 0, (armz / 2 + .04));
-  scene.add(macanetaEsq);
-  scene.add(macanetaDir);
+    let mGeo = new THREE.BoxGeometry(.025, .1, .05);
 
+    let macanetaEsq = new THREE.Mesh(mGeo, glass);
+    macanetaEsq.position.set(+armx / 4, 0, 0.018);
+    let macanetaDir = new THREE.Mesh(mGeo, glass);
+    macanetaDir.position.set(-armx / 4, 0,0.018);
+    paiAuxEsq.add(macanetaEsq);
+    paiAuxDir.add(macanetaDir);
+    macanetaPortaDireita=macanetaDir;
+    macanetaPortaEsquerda=macanetaEsq;
 
+    portaEsquerdaPai=paiAuxEsq;
+    portaDireitaPai=paiAuxDir;
+
+    scene.add(portaDireitaPai);
+    scene.add(portaEsquerdaPai);
 }

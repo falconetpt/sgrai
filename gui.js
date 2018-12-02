@@ -91,6 +91,7 @@ var create_closet = {
             visualizations.add(back_view, 'back_view').name('Back View');
             visualizations.add(left_side, 'left_side').name('Left Side');
             visualizations.add(right_side, 'right_side').name('Right Side');
+            visualizations.add(parameters, 'door_slider').min(0).max(180).step(0.1).name('door_slider').onChange(move_doors);
             
             var deletion = gui.addFolder('deletions');
             deletion.add(delete_cylinder, 'delete_cylinder').name('Delete Hanger');
@@ -293,6 +294,23 @@ var back_view = {
     }
 }
 
+function move_doors(){
+    // if(baseCriado)
+    // {
+        //(M_PI*(x)/180)
+    portaDireitaPai.rotation.y=(Math.PI*this.getValue()/180);
+    portaEsquerdaPai.rotation.y=-(Math.PI*this.getValue()/180);
+        // translate da macaneta com a porta
+    //
+    //
+    // }
+    // else
+    // {
+    //     alert("TEM DE CRIAR UMA BASE");
+    // }
+}
+
+
 function displayGui() {
     gui = new dat.GUI();
     parameters = {
@@ -300,6 +318,7 @@ function displayGui() {
         shelfWidth: 0, shelfHeight: 0, shelfX: 0,
         shelfY: 0,
         //drawer
+        door_slider: 0,
         drawerWidth: 0, drawerHeight: 0, drawerX: 0,
         drawerY: 0,
         //hanger
