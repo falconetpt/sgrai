@@ -27,7 +27,7 @@ var glass = new THREE.MeshPhongMaterial({
   map: new THREE.TextureLoader().load('texturas/vidro.jpg')
 });
 
-var criarArmarioBase = function (dimx, dimy, dimz, material, scene) {
+var createClosetBase = function (dimx, dimy, dimz, material, scene) {
   let geometryTopo = new THREE.BoxGeometry(dimx, .02, dimz);
   let mat = LightWodd;
   if (material == 1) { mat = LightWodd; }
@@ -83,7 +83,7 @@ var criarArmarioBase = function (dimx, dimy, dimz, material, scene) {
   return closet;
 }
 
-var criarCabide = function (xArm, zArm, yArm, altura, dHanger, scene) {
+var createHanger = function (xArm, zArm, yArm, altura, dHanger, scene) {
   var geometry = new THREE.CylinderGeometry(0.02,0.02,xArm,32,5);
   var cylinder = new THREE.Mesh(geometry, metal);
   cylinder.position.set(0, (altura - yArm / 2)*0.85, (dHanger - zArm/2) );
@@ -91,7 +91,7 @@ var criarCabide = function (xArm, zArm, yArm, altura, dHanger, scene) {
   cylinder.rotation.z += 1.57
   return cylinder;
 }
-var criarPrateleira = function (dx, dy, dz, x, y, z, material, scene) {
+var createShelf = function (dx, dy, dz, x, y, z, material, scene) {
   let geometry = new THREE.BoxGeometry(dx - .04, dy, dz - .04);
   let mat = LightWodd;
   if (material == 1) { mat = LightWodd; }
@@ -104,7 +104,7 @@ var criarPrateleira = function (dx, dy, dz, x, y, z, material, scene) {
   return cubo;
 }
 
-var criarGaveta = function (dx, dy, dz, x, y, z, m, scene) {
+var createDrawer = function (dx, dy, dz, x, y, z, m, scene) {
   let geometry = new THREE.BoxGeometry(dx - .04, dy, dz - .04); // de modo a encaixar na caixa do módulo de gavetas
   let mat = LightWodd;
   if (m == 1) { mat = LightWodd; }
@@ -123,7 +123,7 @@ var criarGaveta = function (dx, dy, dz, x, y, z, m, scene) {
   return drawer;
 }
 
-var portaFechada = function (armx, army, armz, m, scene) {
+var closedDoor = function (armx, army, armz, m, scene) {
   let mat = LightWodd;
   if (m == 1) { mat = LightWodd; }
   if (m == 2) { mat = metal; }

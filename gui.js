@@ -100,7 +100,7 @@ var create_closet = {
             scene.remove(chao);
             let materialCria = getMaterial(closetTexture);
             createdCloset = true;
-            criarArmarioBase(armx, army, armz, materialCria, scene);
+            createClosetBase(armx, army, armz, materialCria, scene);
             
         } else {
             alert("Closet is already created!");
@@ -143,11 +143,11 @@ var create_shelf = {
                 }
             }
             let materialCria = getMaterial(shelterTexture);
-            let object = criarPrateleira(wPrat, hPrat, armz, xAux, yAux, zAux, materialCria, scene);
+            let object = createShelf(wPrat, hPrat, armz, xAux, yAux, zAux, materialCria, scene);
             shelfs.push(object);
             objects.push(object);
         } else {
-            alert("TEM DE CRIAR UMA BASE");
+            alert("You have to create a base!");
         }
     }
 }
@@ -189,9 +189,9 @@ var create_drawer = {
             }
             let materialCria = getMaterial(drawerTexture);
             gaveta = true;
-            drawers.push(criarGaveta(wGav, hGav, armz, xAux, yAux, zAux, materialCria, scene));
+            drawers.push(createDrawer(wGav, hGav, armz, xAux, yAux, zAux, materialCria, scene));
         } else {
-            alert("TEM DE CRIAR UMA BASE");
+            alert("You have to create a base!");
         }
 
     }
@@ -200,9 +200,9 @@ var create_drawer = {
 var criar_cabide = {
     criar_cabide: function () {
         if (createdCloset) {
-            hangers.push(criarCabide(armx,armz, army, army, dHanger, scene));
+            hangers.push(createHanger(armx,armz, army, army, dHanger, scene));
         } else {
-            alert("TEM DE CRIAR UMA BASE");
+            alert("You have to create a base!");
         }
 
     }
@@ -220,12 +220,12 @@ var create_doors = {
             if (createdCloset) {
                 let materialCria = getMaterial(doorTexture);
                 this.estadoPorta = true;
-                portaFechada(armx, army, armz, materialCria, scene);
+                closedDoor(armx, army, armz, materialCria, scene);
             } else {
-                alert("TEM DE CRIAR UMA BASE");
+                alert("You have to create a base!");
             }
         } else {
-            alert("JA CRIOU PORTAS PARA O ARMARIO");
+            alert("Already created the doors of closet!");
         }
 
     }
