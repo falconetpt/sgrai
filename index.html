@@ -14,6 +14,7 @@
 <script src="item.js"></script>
 <script src="dat.gui.min.js"></script>
 <script src="gui.js"></script>
+<script src="index.js"></script>
 
 <script type="x-shader/x-vertex" id="vertexShader">
             void main(){
@@ -74,8 +75,7 @@
     sceneSound.loop = true;
     sceneSound.autoplay = true;
     mesh1.add( sceneSound );;
-    displayGui();
-
+    objects = displayGui();
 
     // GAME LOGIC
     var update = function(){

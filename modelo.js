@@ -75,11 +75,12 @@ var criarArmarioBase = function (dimx, dimy, dimz, material, scene) {
     shininess: 30,
     map: new THREE.TextureLoader().load('texturas/relva.jpg')
   });
-  
 
   var floor = new THREE.Mesh(geometryC, FloorMaterial);
   scene.add(floor);
   floor.position.set(0, -(dimy / 2)-.5 , 0);
+  const closet = [closetTop,closetBottom,closetRightSide,closetLeftSide,cube];
+  return closet;
 }
 
 var criarCabide = function (xArm, zArm, yArm, altura, dHanger, scene) {
@@ -88,6 +89,7 @@ var criarCabide = function (xArm, zArm, yArm, altura, dHanger, scene) {
   cylinder.position.set(0, (altura - yArm / 2)*0.85, (dHanger - zArm/2) );
   scene.add(cylinder);
   cylinder.rotation.z += 1.57
+  return cylinder;
 }
 var criarPrateleira = function (dx, dy, dz, x, y, z, material, scene) {
   let geometry = new THREE.BoxGeometry(dx - .04, dy, dz - .04);
@@ -99,6 +101,7 @@ var criarPrateleira = function (dx, dy, dz, x, y, z, material, scene) {
   let cubo = new THREE.Mesh(geometry, mat);
   cubo.position.set(x, y, z);
   scene.add(cubo);
+  return cubo;
 }
 
 var criarGaveta = function (dx, dy, dz, x, y, z, m, scene) {
@@ -107,9 +110,6 @@ var criarGaveta = function (dx, dy, dz, x, y, z, m, scene) {
   if (m == 1) { mat = LightWodd; }
   if (m == 2) { mat = metal; }
   if (m == 3) { mat = glass; }
-
-
-
   let mac = new THREE.Mesh(geometry, mat);
   mac.position.set(x, y, z);
   scene.add(mac);
@@ -119,7 +119,8 @@ var criarGaveta = function (dx, dy, dz, x, y, z, m, scene) {
   let macaneta = new THREE.Mesh(mGeo, glass);
   macaneta.position.set(x, y, (z + dz / 2) - 0.025);
   scene.add(macaneta);
-  return mac;
+  const drawer = [mac,macaneta];
+  return drawer;
 }
 
 var portaFechada = function (armx, army, armz, m, scene) {

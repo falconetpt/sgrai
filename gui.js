@@ -36,6 +36,10 @@ var yGav;
 //PORTAS
 var porta;
 var estadoPorta = false;
+var hangers = [];
+var drawers = [];
+var shelfs = [];
+var objects = [];
 //PORTAS
 var itens = [];
 var texturesOptions = [texture.wood, texture.steel, texture.glass];
@@ -91,6 +95,11 @@ var create_closet = {
             visualizations.add(back_view, 'back_view').name('Back View');
             visualizations.add(left_side, 'left_side').name('Left Side');
             visualizations.add(right_side, 'right_side').name('Right Side');
+            
+            var deletion = gui.addFolder('deletions');
+            deletion.add(delete_cylinder, 'delete_cylinder').name('Delete Hanger');
+            deletion.add(delete_shelf, 'delete_shelf').name('Delete Shelf');
+            deletion.add(delete_drawer, 'delete_drawer').name('Delete Drawer');
 
             scene.remove(chao);
             let materialCria = getMaterial(closetTexture);
@@ -138,8 +147,9 @@ var criar_prateleira = {
                 }
             }
             let materialCria = getMaterial(shelterTexture);
-            
-            criarPrateleira(wPrat, hPrat, armz, xAux, yAux, zAux, materialCria, scene);
+            let object = criarPrateleira(wPrat, hPrat, armz, xAux, yAux, zAux, materialCria, scene);
+            shelfs.push(object);
+            objects.push(object);
         } else {
             alert("TEM DE CRIAR UMA BASE");
         }
@@ -183,8 +193,9 @@ var criar_gaveta = {
             }
             let materialCria = getMaterial(drawerTexture);
             gaveta = true;
-
-            criarGaveta(wGav, hGav, armz, xAux, yAux, zAux, materialCria, scene);
+            console.log(drawers);
+            drawers.push(criarGaveta(wGav, hGav, armz, xAux, yAux, zAux, materialCria, scene));
+            console.log(drawers);
         } else {
             alert("TEM DE CRIAR UMA BASE");
         }
@@ -195,7 +206,7 @@ var criar_gaveta = {
 var criar_cabide = {
     criar_cabide: function () {
         if (createdCloset) {
-            criarCabide(armx,armz, army, army, dHanger, scene);
+            hangers.push(criarCabide(armx,armz, army, army, dHanger, scene));
         } else {
             alert("TEM DE CRIAR UMA BASE");
         }
@@ -234,6 +245,27 @@ var front_view = {
     }
 }
 
+var delete_cylinder = {
+    delete_cylinder: function () {
+        scene.remove(hangers.pop());
+    }
+}
+
+var delete_shelf = {
+    delete_shelf: function () {
+        scene.remove(shelfs.pop());
+    }
+}
+
+var delete_drawer = {
+    delete_drawer: function () {
+        var drawer = drawers.pop();
+        console.log(drawer);
+        drawer.forEach((mesh) => {
+            scene.remove(mesh);
+        })
+    }
+}
 
 var left_side = {
     left_side: function () {
@@ -331,6 +363,7 @@ function displayGui() {
     textura.onChange(function () { closetTexture = texturaInit.Textura });
 
     gui.open();
+    return objects;
 }
 
 function getMaterial(textureMaterial) {
