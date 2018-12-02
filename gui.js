@@ -6,12 +6,11 @@ var texture = {
     steel: 'steel',
     glass: 'glass'
 };
-//texutr
+//textures
 var closetTexture = texture.wood;
 var drawerTexture = texture.wood;
 var shelterTexture = texture.wood;
 var doorTexture = texture.wood;
-//textr
 var createdCloset = false;
 var armx = 0.5;
 var army = 0.5;
@@ -24,23 +23,20 @@ var xPrat;
 var yPrat;
 var zPrat;
 var alturaCabide;
-//CABIDE  
+//HANGER  
 var dHanger
 //GAVETA
 var wGav;
 var hGav;
-//AXIOS
 var xGav;
 var yGav;
-//GAVETA
-//PORTAS
 var porta;
 var estadoPorta = false;
+//Structures
 var hangers = [];
 var drawers = [];
 var shelfs = [];
 var objects = [];
-//PORTAS
 var itens = [];
 var texturesOptions = [texture.wood, texture.steel, texture.glass];
 
@@ -60,7 +56,7 @@ var create_closet = {
             yp.onChange(function (jar) { yPrat = jar });
             shelterTexture = texture.wood;
             texturaP.onChange(function () { shelterTexture = texturaIP.Textura });
-            prat.add(criar_prateleira, 'criar_prateleira').name('Create shelf');
+            prat.add(create_shelf, 'create_shelf').name('Create shelf');
 
             var texturaIG = { Textura: texture.wood };
             var gav = gui.addFolder('drawer');
@@ -75,7 +71,7 @@ var create_closet = {
             yg.onChange(function (jar) { yGav = jar });
             drawerTexture = texture.wood;
             texturaG.onChange(function () { drawerTexture = texturaIG.Textura });
-            gav.add(criar_gaveta, 'criar_gaveta').name('Create drawer');
+            gav.add(create_drawer, 'create_drawer').name('Create drawer');
 
             var texturaIC = { Textura: texture.wood };
             var cab = gui.addFolder('hanger');
@@ -87,7 +83,7 @@ var create_closet = {
             var texturaIPort = { Textura: texture.wood };
             var texturaPAux = por.add(texturaIPort, 'Textura').options(texturesOptions);
             texturaPAux.onChange(function () { doorTexture = texturaIPort.Textura });
-            por.add(criar_portas, 'criar_portas').name('Create Doors');
+            por.add(create_doors, 'create_doors').name('Create Doors');
 
             var visualizations = gui.addFolder('visualizations');
             visualizations.add(front_view, 'front_view').name('Front View');
@@ -113,8 +109,8 @@ var create_closet = {
     }
 }
 
-var criar_prateleira = {
-    criar_prateleira: function () {
+var create_shelf = {
+    create_shelf: function () {
         if (createdCloset) {
             var xAux = xPrat - armx / 2;
             var yAux = yPrat - army / 2;
@@ -156,8 +152,8 @@ var criar_prateleira = {
     }
 }
 
-var criar_gaveta = {
-    criar_gaveta: function () {
+var create_drawer = {
+    create_drawer: function () {
         if (createdCloset) {
 
             var xAux = xGav - armx / 2;
@@ -193,9 +189,7 @@ var criar_gaveta = {
             }
             let materialCria = getMaterial(drawerTexture);
             gaveta = true;
-            console.log(drawers);
             drawers.push(criarGaveta(wGav, hGav, armz, xAux, yAux, zAux, materialCria, scene));
-            console.log(drawers);
         } else {
             alert("TEM DE CRIAR UMA BASE");
         }
@@ -214,8 +208,8 @@ var criar_cabide = {
     }
 }
 
-var criar_portas = {
-    criar_portas: function () {
+var create_doors = {
+    create_doors: function () {
 
         for (const i in this.itens) {
             alert(i.x);
@@ -260,7 +254,6 @@ var delete_shelf = {
 var delete_drawer = {
     delete_drawer: function () {
         var drawer = drawers.pop();
-        console.log(drawer);
         drawer.forEach((mesh) => {
             scene.remove(mesh);
         })
@@ -306,12 +299,11 @@ function displayGui() {
         closetWidth: armx, closetHeight: army, closetDepth: armz,
         shelfWidth: 0, shelfHeight: 0, shelfX: 0,
         shelfY: 0,
-        //gaveta
+        //drawer
         drawerWidth: 0, drawerHeight: 0, drawerX: 0,
         drawerY: 0,
-        //cabide
+        //hanger
         hangerDepth: 0,
-        //porta
     }
 
     let geometryC = new THREE.BoxGeometry(15, 0, 15);
