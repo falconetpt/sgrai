@@ -73,8 +73,5 @@
       "build/three.module.js"
     ],
     "directories": {}
-  },
-  "dependencies": {
-    "three-dragcontrols": "^0.88.2"
   }
 }
