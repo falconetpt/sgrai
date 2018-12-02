@@ -1,114 +1,90 @@
 var gui;
 var jar;
 var chao;
-const text1 = "wood";
-const text2 = "steel";
-const text3 = "glass";
+var texture = {
+    wood: 'wood',
+    steel: 'steel',
+    glass: 'glass'
+};
 //texutr
-var texturaFinal = text1;
-var texturaGav = text1;
-var texturaPrat = text1;
-var texturaCab = text1;
-var texturaPorta = text1;
+var closetTexture = texture.wood;
+var drawerTexture = texture.wood;
+var shelterTexture = texture.wood;
+var doorTexture = texture.wood;
 //textr
-var baseCriado = false;
-var xArmarioEscolhido = 0;
-var yArmarioEscolhido = 0;
-var zArmarioEscolhido = 0;
-// dim slide bar
-var armx = 1;
-var army = 1;
-var armz = 1;
+var createdCloset = false;
+var armx = 0.5;
+var army = 0.5;
+var armz = 0.5;
 //dim slide bar
-//PRATELEIRA
 var wPrat;
 var hPrat;
 var dPrat;
-//AXIOS
 var xPrat;
 var yPrat;
 var zPrat;
-//PRATELEIRA  
-//CABIDE
 var alturaCabide;
 //CABIDE  
+var dHanger
 //GAVETA
 var wGav;
 var hGav;
-var dGav;
 //AXIOS
 var xGav;
 var yGav;
-var zGav;
 //GAVETA
 //PORTAS
 var porta;
 var estadoPorta = false;
 //PORTAS
 var itens = [];
-
+var texturesOptions = [texture.wood, texture.steel, texture.glass];
 
 var create_closet = {
     create_closet: function () {
-        if (!baseCriado) {
-            //CRIAR FOLDERS
-            var texturaIP = { Textura: text1 };
-            var texturas = [text1, text2, text3];
+        if (!createdCloset) {
+            var texturaIP = { Textura: texture.wood };
             var prat = gui.addFolder('shelf');
-            var texturaP = prat.add(texturaIP, 'Textura').options(texturas);
-            var wp = prat.add(parameters, 'f').min(0.1).max(armx).step(.1).name('width');
-            var hp = prat.add(parameters, 'g').min(0.01).max(army / 20).step(.005).name('height');
-            var dp = prat.add(parameters, 'h').min(0.1).max(armz).step(.1).name('depth');
-            var xp = prat.add(parameters, 'i').min(0.1).max(armx).step(.1).name('x-pos');
-            var yp = prat.add(parameters, 'j').min(0.1).max(army).step(.1).name('y-pos');
-            var zp = prat.add(parameters, 'k').min(0.1).max(armz).step(.1).name('z-pos');
+            var texturaP = prat.add(texturaIP, 'Textura').options(texturesOptions);
+            var wp = prat.add(parameters, 'shelfWidth').min(0.1).max(armx).step(.1).name('Width');
+            var hp = prat.add(parameters, 'shelfHeight').min(0.01).max(army / 20).step(.005).name('Heigth');
+            var xp = prat.add(parameters, 'shelfX').min(0.1).max(armx).step(.1).name('x');
+            var yp = prat.add(parameters, 'shelfY').min(0.1).max(army).step(.1).name('y');
             wp.onChange(function (jar) { wPrat = jar });
             hp.onChange(function (jar) { hPrat = jar });
-            dp.onChange(function (jar) { dPrat = jar });
             xp.onChange(function (jar) { xPrat = jar });
             yp.onChange(function (jar) { yPrat = jar });
-            zp.onChange(function (jar) { zPrat = jar });
-            texturaPrat = text1;
-            texturaP.onChange(function () { texturaPrat = texturaIP.Textura });
+            shelterTexture = texture.wood;
+            texturaP.onChange(function () { shelterTexture = texturaIP.Textura });
             prat.add(criar_prateleira, 'criar_prateleira').name('Create shelf');
 
-            var texturaIG = { Textura: text1 };
+            var texturaIG = { Textura: texture.wood };
             var gav = gui.addFolder('drawer');
-            var texturaG = gav.add(texturaIG, 'Textura').options(texturas);
-            var wg = gav.add(parameters, 'l').min(0.1).max(armx).step(.1).name('width');
-            var hg = gav.add(parameters, 'm').min(0.01).max(.2).step(.01).name('height');
-            var dg = gav.add(parameters, 'n').min(0.1).max(armz).step(.1).name('depth');
-            var xg = gav.add(parameters, 'o').min(0.1).max(armx).step(.1).name('x-pos');
-            var yg = gav.add(parameters, 'p').min(0.1).max(army).step(.1).name('y-pos');
-            var zg = gav.add(parameters, 'q').min(0.1).max(armz).step(.1).name('z-pos');
+            var texturaG = gav.add(texturaIG, 'Textura').options(texturesOptions);
+            var wg = gav.add(parameters, 'drawerWidth').min(0.1).max(armx).step(.1).name('Width');
+            var hg = gav.add(parameters, 'drawerHeight').min(0.01).max(army).step(.01).name('Heigth');
+            var xg = gav.add(parameters, 'drawerX').min(0.1).max(armx).step(.1).name('x');
+            var yg = gav.add(parameters, 'drawerY').min(0.1).max(army).step(.1).name('y');
             wg.onChange(function (jar) { wGav = jar });
             hg.onChange(function (jar) { hGav = jar });
-            dg.onChange(function (jar) { dGav = jar });
             xg.onChange(function (jar) { xGav = jar });
             yg.onChange(function (jar) { yGav = jar });
-            zg.onChange(function (jar) { zGav = jar });
-            texturaGav = text1;
-            texturaG.onChange(function () { texturaGav = texturaIG.Textura });
+            drawerTexture = texture.wood;
+            texturaG.onChange(function () { drawerTexture = texturaIG.Textura });
             gav.add(criar_gaveta, 'criar_gaveta').name('Create drawer');
 
-            //CABIDE
-            var texturaIC = { Textura: text1 };
+            var texturaIC = { Textura: texture.wood };
             var cab = gui.addFolder('hanger');
-            var texturaC = cab.add(texturaIC, 'Textura').options(texturas);
-            var altCab = cab.add(parameters, 'altura').min(0).max(army).step(.1).name('width');
-            altCab.onChange(function (jar) { alturaCabide = jar });
-            texturaCab = text1;
-            texturaC.onChange(function () { texturaCab = texturaIC.Textura });
+            var depthHanger = cab.add(parameters, 'hangerDepth').min(0.1).max(armz-0.1).step(.1).name('Depth');
+            depthHanger.onChange(function (jar) { dHanger = jar });
             cab.add(criar_cabide, 'criar_cabide').name('Create hanger');
-            //Doors
 
             var por = gui.addFolder('doors');
-            var texturaIPort = { Textura: text1 };
-            var texturaPAux = por.add(texturaIPort, 'Textura').options(texturas);
-            texturaPAux.onChange(function () { texturaPorta = texturaIPort.Textura });
+            var texturaIPort = { Textura: texture.wood };
+            var texturaPAux = por.add(texturaIPort, 'Textura').options(texturesOptions);
+            texturaPAux.onChange(function () { doorTexture = texturaIPort.Textura });
             por.add(criar_portas, 'criar_portas').name('Create Doors');
 
-            //Visualizacoes
             var visualizations = gui.addFolder('visualizations');
             visualizations.add(front_view, 'front_view').name('Front View');
             visualizations.add(top_view, 'top_view').name('Top View');
@@ -116,21 +92,10 @@ var create_closet = {
             visualizations.add(left_side, 'left_side').name('Left Side');
             visualizations.add(right_side, 'right_side').name('Right Side');
 
-            //CRIARFOLDER
             scene.remove(chao);
-            xArmarioEscolhido = armx;
-            yArmarioEscolhido = army;
-            zArmarioEscolhido = armz;
-            let materialCria = 1;
-            if (texturaFinal == text1) {
-                materialCria = 1;
-            } else if (texturaFinal == text2) {
-                materialCria = 2;
-            } else {
-                materialCria = 3;
-            }
-            baseCriado = true;
-            criarArmarioBase(xArmarioEscolhido, yArmarioEscolhido, zArmarioEscolhido, materialCria, scene);
+            let materialCria = getMaterial(closetTexture);
+            createdCloset = true;
+            criarArmarioBase(armx, army, armz, materialCria, scene);
             
         } else {
             alert("Closet is already created!");
@@ -141,47 +106,40 @@ var create_closet = {
 
 var criar_prateleira = {
     criar_prateleira: function () {
-        if (baseCriado) {
-            var xAux = xPrat - xArmarioEscolhido / 2;
-            var yAux = yPrat - yArmarioEscolhido / 2;
-            var zAux = zPrat - zArmarioEscolhido / 2;
-            if (xAux - wPrat / 2 < - xArmarioEscolhido / 2) {
-                xAux = (-xArmarioEscolhido / 2 + wPrat / 2);
+        if (createdCloset) {
+            var xAux = xPrat - armx / 2;
+            var yAux = yPrat - army / 2;
+            var zAux = armz / 2;
+            if (xAux - wPrat / 2 < - armx / 2) {
+                xAux = (-armx / 2 + wPrat / 2);
             }
-            if (xAux + wPrat / 2 > xArmarioEscolhido / 2) {
-                xAux = (xArmarioEscolhido / 2 - wPrat / 2);
-            }
-
-            if (zAux - dPrat / 2 < -zArmarioEscolhido / 2) {
-                zAux = (-zArmarioEscolhido / 2 + dPrat / 2);
-            }
-            if (zAux + dPrat / 2 > zArmarioEscolhido / 2) {
-                zAux = (zArmarioEscolhido / 2 - dPrat / 2);
+            if (xAux + wPrat / 2 > armx / 2) {
+                xAux = (armx / 2 - wPrat / 2);
             }
 
-            if ((yAux + hPrat / 2) > yArmarioEscolhido / 2) {
-                yAux = yArmarioEscolhido / 2 - .2;
+            if (zAux - armz / 2 < -armz / 2) {
+                zAux = (-armz / 2 + armz / 2);
             }
-            if ((yAux - hPrat / 2) < -yArmarioEscolhido / 2) {
-                yAux = -yArmarioEscolhido / 2 + .2;
+            if (zAux + armz / 2 > armz / 2) {
+                zAux = (armz / 2 - armz / 2);
             }
 
-            if ((xAux - wPrat / 2) > - xArmarioEscolhido / 2 && xAux + wPrat / 2 < xArmarioEscolhido / 2) {
-                if ((zAux - dPrat / 2) > - zArmarioEscolhido / 2) {
-                    zAux = -zArmarioEscolhido / 2 + dPrat / 2;
+            if ((yAux + hPrat / 2) > army / 2) {
+                yAux = army / 2 - .2;
+            }
+            if ((yAux - hPrat / 2) < -army / 2) {
+                yAux = -army / 2 + .2;
+            }
+
+            if ((xAux - wPrat / 2) > - armx / 2 && xAux + wPrat / 2 < armx / 2) {
+                if ((zAux - armz / 2) > - armz / 2) {
+                    zAux = -armz / 2 + armz / 2;
 
                 }
             }
-            let materialCria = 1;
-            if (texturaPrat == text1) {
-                materialCria = 1;
-            } else if (texturaPrat == text2) {
-                materialCria = 2;
-            } else {
-                materialCria = 3;
-            }
-
-            criarPrateleira(wPrat, hPrat, dPrat, xAux, yAux, zAux, materialCria, scene);
+            let materialCria = getMaterial(shelterTexture);
+            
+            criarPrateleira(wPrat, hPrat, armz, xAux, yAux, zAux, materialCria, scene);
         } else {
             alert("TEM DE CRIAR UMA BASE");
         }
@@ -190,50 +148,43 @@ var criar_prateleira = {
 
 var criar_gaveta = {
     criar_gaveta: function () {
-        if (baseCriado) {
+        if (createdCloset) {
 
-            var xAux = xGav - xArmarioEscolhido / 2;
-            var yAux = yGav - yArmarioEscolhido / 2;
-            var zAux = zGav - zArmarioEscolhido / 2;
+            var xAux = xGav - armx / 2;
+            var yAux = yGav - army / 2;
+            var zAux = armz / 2;
 
-            if (xAux - wGav / 2 < - xArmarioEscolhido / 2) {
-                xAux = (-xArmarioEscolhido / 2 + wGav / 2);
+            if (xAux - wGav / 2 < - armx / 2) {
+                xAux = (-armx / 2 + wGav / 2);
             }
-            if (xAux + wGav / 2 > xArmarioEscolhido / 2) {
-                xAux = (xArmarioEscolhido / 2 - wGav / 2);
-            }
-
-            if (zAux - dGav / 2 < -zArmarioEscolhido / 2) {
-                zAux = (-zArmarioEscolhido / 2 + dGav / 2);
-            }
-            if (zAux + dGav / 2 > zArmarioEscolhido / 2) {
-                zAux = (zArmarioEscolhido / 2 - dGav / 2);
+            if (xAux + wGav / 2 > armx / 2) {
+                xAux = (armx / 2 - wGav / 2);
             }
 
-            if ((yAux + hGav / 2) > yArmarioEscolhido / 2) {
-                yAux = yArmarioEscolhido / 2 - .2;
+            if (zAux - armz / 2 < -armz / 2) {
+                zAux = (-armz / 2 + armz / 2);
             }
-            if ((yAux - hGav / 2) < -yArmarioEscolhido / 2) {
-                yAux = -yArmarioEscolhido / 2 + .2;
+            if (zAux + armz / 2 > armz / 2) {
+                zAux = (armz / 2 - armz / 2);
             }
 
-            if ((xAux - wGav / 2) > - xArmarioEscolhido / 2 && xAux + wGav / 2 < xArmarioEscolhido / 2) {
-                if ((zAux - dGav / 2) > - zArmarioEscolhido / 2) {
-                    zAux = -zArmarioEscolhido / 2 + dGav / 2;
+            if ((yAux + hGav / 2) > army / 2) {
+                yAux = army / 2 - .2;
+            }
+            if ((yAux - hGav / 2) < -army / 2) {
+                yAux = -army / 2 + .2;
+            }
+
+            if ((xAux - wGav / 2) > - armx / 2 && xAux + wGav / 2 < armx / 2) {
+                if ((zAux - armz / 2) > - armz / 2) {
+                    zAux = -armz / 2 + armz / 2;
 
                 }
             }
-            let materialCria = 1;
-            if (texturaGav == text1) {
-                materialCria = 1;
-            } else if (texturaGav == text2) {
-                materialCria = 2;
-            } else {
-                materialCria = 3;
-            }
+            let materialCria = getMaterial(drawerTexture);
             gaveta = true;
 
-            criarGaveta(wGav, hGav, dGav, xAux, yAux, zAux, materialCria, scene);
+            criarGaveta(wGav, hGav, armz, xAux, yAux, zAux, materialCria, scene);
         } else {
             alert("TEM DE CRIAR UMA BASE");
         }
@@ -243,16 +194,8 @@ var criar_gaveta = {
 
 var criar_cabide = {
     criar_cabide: function () {
-        if (baseCriado) {
-            let materialCria = 1;
-            if (texturaCab == text1) {
-                materialCria = 1;
-            } else if (texturaCab == text2) {
-                materialCria = 2;
-            } else {
-                materialCria = 3;
-            }
-            criarCabide(xArmarioEscolhido, yArmarioEscolhido, alturaCabide, materialCria, scene);
+        if (createdCloset) {
+            criarCabide(armx,armz, army, army, dHanger, scene);
         } else {
             alert("TEM DE CRIAR UMA BASE");
         }
@@ -269,19 +212,10 @@ var criar_portas = {
 
 
         if (!estadoPorta) {
-            if (baseCriado) {
-                let materialCria = 1;
-                if (texturaPorta == text1) {
-                    materialCria = 1;
-                } else if (texturaPorta == text2) {
-                    materialCria = 2;
-                } else {
-                    materialCria = 3;
-                }
+            if (createdCloset) {
+                let materialCria = getMaterial(doorTexture);
                 this.estadoPorta = true;
-                portaFechada(xArmarioEscolhido, yArmarioEscolhido, zArmarioEscolhido, materialCria, scene);
-
-
+                portaFechada(armx, army, armz, materialCria, scene);
             } else {
                 alert("TEM DE CRIAR UMA BASE");
             }
@@ -337,18 +271,15 @@ var back_view = {
 function displayGui() {
     gui = new dat.GUI();
     parameters = {
-        c: 0, d: 0, e: 0,
-
-        //prte
-        f: 0, g: 0, h: 0,
-        i: 0, j: 0, k: 0,
+        closetWidth: armx, closetHeight: army, closetDepth: armz,
+        shelfWidth: 0, shelfHeight: 0, shelfX: 0,
+        shelfY: 0,
         //gaveta
-        l: 0, m: 0, n: 0,
-        o: 0, p: 0, q: 0,
+        drawerWidth: 0, drawerHeight: 0, drawerX: 0,
+        drawerY: 0,
         //cabide
-        altura: 0,
+        hangerDepth: 0,
         //porta
-
     }
 
     let geometryC = new THREE.BoxGeometry(15, 0, 15);
@@ -382,27 +313,32 @@ function displayGui() {
     pe.position.set(-7.5, 1.5, 0);
 
     chao.position.set(0, -0.2, 0);
-    //scene.remove(chao);
 
 
-    var texturaInit = { Textura: text1 };
-    var texturas = [text1, text2, text3];
+    var texturaInit = { Textura: texture.wood };
 
-    //var textura = gui.add(texturaInit, 'Textura').options(texturas);
     var arm = gui.addFolder('Closet Skeletton');
-    var textura = arm.add(texturaInit, 'Textura').options(texturas);
-    var dax = arm.add(parameters, 'c').min(.5).max(2).step(.1).name('width');
-    var day = arm.add(parameters, 'd').min(.5).max(4).step(.10).name('height');
-    var daz = arm.add(parameters, 'e').min(.5).max(2).step(.10).name('depth');
+    var textura = arm.add(texturaInit, 'Textura').options(texturesOptions);
+    var dax = arm.add(parameters, 'closetWidth').min(.5).max(2).step(.1).name('Width');
+    var day = arm.add(parameters, 'closetHeight').min(.5).max(2).step(.1).name('Heigth');
+    var daz = arm.add(parameters, 'closetDepth').min(.5).max(2).step(.1).name('Depth');
 
     arm.add(create_closet, 'create_closet').name('create closet');
     dax.onChange(function (jar) { armx = jar });
     day.onChange(function (jar) { army = jar });
     daz.onChange(function (jar) { armz = jar });
-    texturaFinal = text1;
-    textura.onChange(function () { texturaFinal = texturaInit.Textura });
-
-
+    closetTexture = texture.wood;
+    textura.onChange(function () { closetTexture = texturaInit.Textura });
 
     gui.open();
+}
+
+function getMaterial(textureMaterial) {
+    if (textureMaterial === texture.wood) {
+        return 1;
+    } else if (textureMaterial === texture.steel) {
+        return 2;
+    } else {
+        return 3;
+    }
 }

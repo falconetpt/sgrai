@@ -1,4 +1,4 @@
-const ARMARIO = 0;
+const CLOSET = 0;
 const GAVETA = 1;
 const PRATELEIRA = 2;
 const CABIDE = 3;
@@ -82,19 +82,12 @@ var criarArmarioBase = function (dimx, dimy, dimz, material, scene) {
   floor.position.set(0, -(dimy / 2)-.5 , 0);
 }
 
-var criarCabide = function (xArm, yArm, altura, material, scene) {
-  let mat = LightWodd;
-  if (material == 1) { mat = LightWodd; }
-  if (material == 2) { mat = metal; }
-  if (material == 3) { mat = glass; }
-  if (altura > yArm - .3) { altura -= .3; }
-  if (altura < 0 + 0.4) { altura += 0.4; }
-  let geometry = new THREE.BoxGeometry(xArm, .03, .03);
-
-  let cubo = new THREE.Mesh(geometry, mat);
-  cubo.position.set(0, altura - yArm / 2, 0);
-  scene.add(cubo);
-
+var criarCabide = function (xArm, zArm, yArm, altura, dHanger, scene) {
+  var geometry = new THREE.CylinderGeometry(0.02,0.02,xArm,32,5);
+  var cylinder = new THREE.Mesh(geometry, metal);
+  cylinder.position.set(0, (altura - yArm / 2)*0.85, (dHanger - zArm/2) );
+  scene.add(cylinder);
+  cylinder.rotation.z += 1.57
 }
 var criarPrateleira = function (dx, dy, dz, x, y, z, material, scene) {
   let geometry = new THREE.BoxGeometry(dx - .04, dy, dz - .04);

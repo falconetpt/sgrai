@@ -32,7 +32,7 @@
     camera.position.set(0,2,3);
 
 
-    var renderer = new THREE.WebGLRenderer();
+    var renderer = new THREE.WebGLRenderer({antiAlias: true});
     renderer.setSize(window.innerWidth,window.innerHeight);
     document.body.appendChild( renderer.domElement);
     renderer.setClearColor(0xEEEEFF,1);
