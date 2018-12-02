@@ -317,20 +317,11 @@ function displayGui() {
 
     var texturaInit = { Textura: texture.wood };
 
-<<<<<<< HEAD
     var arm = gui.addFolder('Closet Skeletton');
     var textura = arm.add(texturaInit, 'Textura').options(texturesOptions);
     var dax = arm.add(parameters, 'closetWidth').min(.5).max(2).step(.1).name('Width');
     var day = arm.add(parameters, 'closetHeight').min(.5).max(2).step(.1).name('Heigth');
     var daz = arm.add(parameters, 'closetDepth').min(.5).max(2).step(.1).name('Depth');
-=======
-    //var textura = gui.add(texturaInit, 'Textura').options(texturas);
-    var arm = gui.addFolder('closet');
-    var textura = arm.add(texturaInit, 'Textura').options(texturas);
-    var dax = arm.add(parameters, 'c').min(.5).max(2).step(.1).name('width');
-    var day = arm.add(parameters, 'd').min(.5).max(4).step(.10).name('height');
-    var daz = arm.add(parameters, 'e').min(.5).max(2).step(.10).name('depth');
->>>>>>> e127d3478bf331b5ea87ac26f792ec85c934b799
 
     arm.add(create_closet, 'create_closet').name('create closet');
     dax.onChange(function (jar) { armx = jar });
