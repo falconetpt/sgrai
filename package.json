@@ -13,9 +13,7 @@
     "build/three.js",
     "build/three.min.js",
     "build/three.module.js",
-    "src",
-    "examples/js",
-    "examples/fonts"
+    "src"
   ],
   "directories": {
     "doc": "docs",
