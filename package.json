@@ -76,6 +76,7 @@
     "directories": {}
   },
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "three-js": "^79.0.0"
   }
 }
